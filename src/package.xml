@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>INT_AffiliationHandler</members>
+        <members>INT_AffiliationHandler_TEST</members>
+        <members>INT_CampaignMemberHandler</members>
+        <members>INT_CampaignMemberHandler_TEST</members>
+        <members>INT_ContactHandler</members>
+        <members>INT_ContactHandler_TEST</members>
+        <members>INT_DuplicateHelper</members>
+        <members>INT_DuplicateHelper_TEST</members>
         <members>INT_InteractionMappingService</members>
         <members>INT_InteractionMappingService_TEST</members>
         <members>INT_InteractionProcessor</members>
         <members>INT_InteractionProcessor_TEST</members>
+        <members>INT_LeadHandler</members>
+        <members>INT_LeadHandler_TEST</members>
         <members>INT_OpportunityContactRoleHandler</members>
         <members>INT_OpportunityContactRoleHandler_TEST</members>
+        <members>INT_OpportunityHandler</members>
+        <members>INT_OpportunityHandler_TEST</members>
+        <members>INT_SObjectHandler</members>
         <members>INT_TestDataFactory</members>
+        <members>INT_Utilities</members>
+        <members>INT_Utilities_TEST</members>
         <name>ApexClass</name>
     </types>
     <types>

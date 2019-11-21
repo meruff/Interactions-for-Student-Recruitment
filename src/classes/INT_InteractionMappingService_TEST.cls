@@ -1,8 +1,9 @@
-/*****************************************
-* File: INT_InteractionMappingService_TEST
-* Author: Sierra-Cedar
-* Description: Unit Tests for INT_InteractionMappingService.cls
-******************************************/
+/**
+* @author Sierra-Cedar
+* @date 11/8/19
+*
+* Unit Tests for INT_InteractionMappingService.cls
+*/
 @IsTest
 private class INT_InteractionMappingService_TEST {
     @TestSetup
@@ -18,7 +19,7 @@ private class INT_InteractionMappingService_TEST {
         Interaction__c testInteraction = new Interaction__c(
             First_Name__c = 'Test',
             Last_Name__c = 'Contact',
-            Interaction_Status__c = 'New'
+            Interaction_Status__c = INT_Utilities.NEW_STATUS
         );
 
         Contact c = new Contact(
@@ -28,8 +29,7 @@ private class INT_InteractionMappingService_TEST {
 
         // Act
         Test.startTest();
-        INT_InteractionMappingService interactionMapping = new INT_InteractionMappingService();
-        interactionMapping.applyDataToSObject(testInteraction, c);
+        INT_InteractionMappingService.applyDataToSObject(testInteraction, c);
         Test.stopTest();
 
         // Assert
@@ -43,7 +43,7 @@ private class INT_InteractionMappingService_TEST {
         Interaction__c testInteraction = new Interaction__c(
             First_Name__c = 'Test',
             Last_Name__c = 'Contact',
-            Interaction_Status__c = 'New',
+            Interaction_Status__c = INT_Utilities.NEW_STATUS,
             Interaction_Source__c = 'Webform'
         );
 
@@ -54,8 +54,7 @@ private class INT_InteractionMappingService_TEST {
 
         // Act
         Test.startTest();
-        INT_InteractionMappingService interactionMapping = new INT_InteractionMappingService();
-        interactionMapping.applyDataToSObject(testInteraction, c);
+        INT_InteractionMappingService.applyDataToSObject(testInteraction, c);
         Test.stopTest();
 
         // Assert
@@ -77,14 +76,13 @@ private class INT_InteractionMappingService_TEST {
         Interaction__c testInteraction = new Interaction__c(
             First_Name__c = '',
             Last_Name__c = 'Lead',
-            Interaction_Status__c = 'New',
+            Interaction_Status__c = INT_Utilities.NEW_STATUS,
             Interaction_Source__c = 'Webform'
         );
 
         // Act
         Test.startTest();
-        INT_InteractionMappingService interactionMapping = new INT_InteractionMappingService();
-        interactionMapping.applyDataToInteraction(testLead, testInteraction);
+        INT_InteractionMappingService.applyDataToInteraction(testLead, testInteraction);
         Test.stopTest();
 
         // Assert

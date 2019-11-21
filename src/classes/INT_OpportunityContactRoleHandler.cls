@@ -1,77 +1,79 @@
-/*****************************************
-* File: INT_OpportunityContactRoleHandler
-* Author: Sierra-Cedar
-* Description: Uses the HEDA Table Driven Trigger Management to update Opportunities when Contact Roles Change
-******************************************/
+/**
+* @author Sierra-Cedar
+* @date 11/12/19
+*
+* Uses the HEDA Table Driven Trigger Management to create OpportunityContactRole records.
+*/
 global without sharing class INT_OpportunityContactRoleHandler extends hed.TDTM_Runnable {
-    global override DmlWrapper run(List<SObject> newList, List<SObject> oldlist,
+    global override DmlWrapper run(List<SObject> newList, List<SObject> oldList,
         hed.TDTM_Runnable.Action triggerAction, Schema.DescribeSObjectResult objResult
     ) {
-        List<OpportunityContactRole> rolesToInsert = new List<OpportunityContactRole>();
         DmlWrapper dmlWrapper = new DmlWrapper();
+        List<OpportunityContactRole> rolesToInsert = new List<OpportunityContactRole>();
 
-        for (SObject anSObject : newList) {
-            Opportunity anOpportunity = (Opportunity) anSObject;
-
-            if (anOpportunity.Contact__c != null) {
-                OpportunityContactRole newRole = new OpportunityContactRole(
-                    ContactId = anOpportunity.Contact__c,
-                    OpportunityId = anOpportunity.Id,
-                    IsPrimary = true,
-                    Role = 'Opportunity Contact'
+        for (Opportunity anOpportunity : (List<Opportunity>) newList) {
+            if (!String.isBlank(anOpportunity.Contact__c)) {
+                rolesToInsert.add(
+                    new OpportunityContactRole(
+                        ContactId = anOpportunity.Contact__c,
+                        OpportunityId = anOpportunity.Id,
+                        Role = 'Opportunity Contact',
+                        IsPrimary = true
+                    )
                 );
-                rolesToInsert.add(newRole);
             }
         }
 
-        // Identify roles to delete
-        List<OpportunityContactRole> rolesToDelete = [
-            SELECT Id, ContactId, IsPrimary, OpportunityId, Role
-            FROM OpportunityContactRole
-            WHERE OpportunityId IN :newList
-        ];
+        if (!rolesToInsert.isEmpty()) {
+            /**
+             * Send existing roles to dmlWrapper for deletion since we're creating new, more accurate ones.
+             * NOTE: Add this List prior to creating new ones so we don't delete those.
+             */
+            dmlWrapper.objectsToDelete.addAll((List<SObject>) [
+                SELECT Id
+                FROM OpportunityContactRole
+                WHERE OpportunityId IN :newList
+            ]);
 
-        // Delete the roles
-        if (rolesToDelete.size() > 0) {
-            dmlWrapper.objectsToDelete.addAll((List<SObject>) rolesToDelete);
-        }
+            INT_Utilities.logPossibleErrors(Database.insert(rolesToInsert));
 
-        // Insert Opportunity Contact Roles
-        insert rolesToInsert;
-
-        // Retrieve Inserted Role Ids to upate primary, doesn't work in same context as Lead Convert
-        // Keep an eye on Idea Exchange below, @future context is handling this for now
-        // https://success.salesforce.com/ideaview?id=08730000000HKbnAAG
-        List<String> roleIds = new List<String>();
-
-        for (OpportunityContactRole aRole : rolesToInsert) {
-            roleIds.add(aRole.Id);
-        }
-
-        if (roleIds.size() > 0) {
+            /**
+            * Retrieve Inserted Role Ids to update IsPrimary on. Doesn't work in same context as Lead Convert. Keep
+            * an eye on Idea Exchange below, @future context is handling this for now
+            * https://success.salesforce.com/ideaview?id=08730000000HKbnAAG
+            */
             if (System.isBatch()) {
-                updateRoles(roleIds);
+                updateRolesAsPrimary(rolesToInsert);
             } else {
-                updateRolesFuture(roleIds);
+                updateRolesAsPrimaryAsync(new Map<Id, OpportunityContactRole>(rolesToInsert).keySet());
             }
         }
 
         return dmlWrapper;
     }
 
-    // Update opportunity contact roles in another context, Salesforce currently not setting primary
+    /**
+     * Updates OpportunityContactRole records in an asynchronous context after creation. Salesforce doesn't
+     * currently update the IsPrimary flag when creating new OCR records, so we need to call it separately.
+     *
+     * @param roleIds, a Set of OpportunityContactRole Ids to set IsPrimary on.
+     */
     @Future
-    public static void updateRolesFuture(List<String> roleIds) {
-        updateRoles(roleIds);
+    public static void updateRolesAsPrimaryAsync(Set<Id> roleIds) {
+        updateRolesAsPrimary([SELECT IsPrimary FROM OpportunityContactRole WHERE Id IN :roleIds]);
     }
 
-    public static void updateRoles(List<String> roleIds) {
-        List<OpportunityContactRole> roles = [SELECT Id, IsPrimary FROM OpportunityContactRole WHERE Id IN :roleIds];
-
-        for (OpportunityContactRole aRole : roles) {
-            aRole.IsPrimary = true;
+    /**
+     * Updates OpportunityContactRole records in a synchronous context after creation. Salesforce doesn't
+     * currently update the IsPrimary flag when creating new OCR records, so we need to call it separately.
+     *
+     * @param roles, a List of OpportunityContactRole records to set IsPrimary on.
+     */
+    public static void updateRolesAsPrimary(List<OpportunityContactRole> roles) {
+        for (OpportunityContactRole role : roles) {
+            role.IsPrimary = true;
         }
 
-        update roles;
+        INT_Utilities.logPossibleErrors(Database.update(roles));
     }
 }

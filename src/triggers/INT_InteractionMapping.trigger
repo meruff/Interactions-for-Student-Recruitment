@@ -1,8 +1,10 @@
-/*****************************************
-* File: INT_InteractionMapping
-* Author: Sierra-Cedar
-* Description: Interaction_Mapping__c Trigger
-******************************************/
+/**
+* @author Sierra-Cedar
+* @date 11/8/19
+*
+* Interaction_Mapping__c Trigger. Validates new mapping records to validate that the fields they reference exist
+* on the related Object.
+*/
 trigger INT_InteractionMapping on Interaction_Mapping__c (after insert, after update) {
     Set<String> sObjectNames = new Set<String>{'Interaction__c'};
     Map<String, Set<String>> sObjectFieldStringsMap = new Map<String, Set<String>>();
@@ -46,7 +48,7 @@ trigger INT_InteractionMapping on Interaction_Mapping__c (after insert, after up
         if (sObjectFieldStringsMap.containsKey(mapping.Source_Object_API_Name__c)) {
             if (!sObjectFieldStringsMap.get(mapping.Source_Object_API_Name__c).contains(mapping.Source_Field_API_Name__c)) {
                 if (!String.isEmpty(errorString)) errorString += ' ';
-                errorString += 'Recruitment Import Field \'' + mapping.Source_Field_API_Name__c + '\' does not exist ' +
+                errorString += 'Source Field API Name \'' + mapping.Source_Field_API_Name__c + '\' does not exist ' +
                     'on Interaction. Please choose a valid field to map from and ensure it is in API name format.';
             }
         }

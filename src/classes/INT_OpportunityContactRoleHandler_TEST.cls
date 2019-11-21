@@ -1,8 +1,9 @@
-/*****************************************
-* File: INT_OpportunityContactRoleHandler_TEST
-* Author: Sierra-Cedar
-* Description: Unit tests for INT_OpportunityContactRoleHandler.cls
-******************************************/
+/**
+* @author Sierra-Cedar
+* @date 11/8/19
+*
+* Unit tests for INT_OpportunityContactRoleHandler.cls
+*/
 @IsTest
 private class INT_OpportunityContactRoleHandler_TEST {
     @TestSetup static void setUp() {

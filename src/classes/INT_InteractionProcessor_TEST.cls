@@ -512,4 +512,32 @@ private class INT_InteractionProcessor_TEST {
         System.assertEquals('4444444444', assertInteraction.Mobile_Phone__c,
             'The value of MobilePhone on Lead should have been copied to the Interaction based on mapping records.');
     }
+
+    /**
+     * Tests duplicate Contact record match-handling.
+     */
+    @IsTest
+    private static void testMultipleDuplicateExistingContacts() {
+        // Arrange
+        Contact testContactExisting = INT_TestDataFactory.createTestContact();
+        insert testContactExisting;
+
+        Database.DMLOptions dml = new Database.DMLOptions();
+        dml.duplicateRuleHeader.allowSave = true;
+
+        Contact testContactDuplicate = INT_TestDataFactory.createTestContact();
+        Database.insert(testContactDuplicate, dml);
+
+        Interaction__c testInteraction = INT_TestDataFactory.createTestInteraction();
+
+        // Act
+        Test.startTest();
+        insert testInteraction;
+        Test.stopTest();
+
+        // Assert
+        Interaction__c assertInteraction = [SELECT Contact__c FROM Interaction__c WHERE Id = :testInteraction.Id];
+        System.assertEquals(testContactExisting.Id, assertInteraction.Contact__c,
+            'Interactions should have found the oldest Contact to use, the testContactExisting record.');
+    }
 }

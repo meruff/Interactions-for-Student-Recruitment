@@ -63,6 +63,19 @@ public class INT_TestDataFactory {
     }
 
     /**
+     * Creates a new Contact record for unit tests.
+     *
+     * @return, a new Contact record to use in unit tests.
+     */
+    public static Contact createTestContact() {
+        return new Contact(
+            FirstName = 'Super',
+            LastName = 'Gary',
+            Email = 'super.gary@nomail.com'
+        );
+    }
+
+    /**
      * Creates and returns a List of Lead test data
      *
      * @return testLeadsToInsert, a List of Lead records for bulk unit tests.

@@ -137,10 +137,10 @@ public class INT_LeadHandler {
                     for (Database.Error error : lcr.getErrors()) {
                         INT_Utilities.writeAuditReasonToInteraction(
                             interactionWrappersByLeadId.get(lcr.getLeadId()).interaction,
-                            'Error during Lead conversion: ' + error.getStatusCode() + ' ' + error.getMessage() + '.');
+                            'Error during Lead conversion: ' + error.getStatusCode() + ' ' + error.getMessage() + ' ' + error.getFields());
                         INT_Utilities.log(
                             System.LoggingLevel.ERROR,
-                            'Error during Lead conversion: ' + error.getStatusCode() + ' ' + error.getMessage() + '.'
+                            'Error during Lead conversion: ' + error.getStatusCode() + ' ' + error.getMessage() + ' ' + error.getFields()
                         );
                     }
                 }

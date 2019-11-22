@@ -6,9 +6,7 @@
 */
 public class INT_InteractionMappingService {
     /**
-     * TODO
-     *  - Custom mdt instead of custom object?
-     *  - Can we make this faster in some way? Take out the extra looping?
+     * TODO Convert Interaction_Mapping__c to a Custom mdt instead of custom Object?
      */
 
     private static Set<String> objectNames = new Set<String>();

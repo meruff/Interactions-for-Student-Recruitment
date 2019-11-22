@@ -6,11 +6,9 @@
 */
 public class INT_InteractionProcessor {
     /**
-     * TODO:
-     *  - INT_RelationshipHandler.
-     *  - Unit tests for all new classes.
-     *  - Comments, either make then better or kill them if they don't make sense. Keeping them for now during
-     *    development to keep logic in check.
+     * TODO
+     *  - INT_RelationshipHandler, add to standard Interactions? Configurable using the handlersToProcess List below.
+     *  - Convert handlersToProcess to a custom MDT? TDTM Lite™
      */
 
     public static Boolean runAsync = true;
@@ -20,7 +18,6 @@ public class INT_InteractionProcessor {
      * A List of related Object handlers to run after initial Lead/Contact processing of Interaction__c records.
      * NOTE: This List must be in order of execution, if execution order is necessary, specifically for synchronous
      * processing.
-     * // TODO: Custom mdt?
      */
     private static List<INT_SObjectHandler> handlersToProcess {
         get {

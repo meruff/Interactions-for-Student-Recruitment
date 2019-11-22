@@ -103,13 +103,49 @@ private class INT_LeadHandler_TEST {
                 new List<INT_InteractionProcessor.InteractionWrapper>{testInteractionWrapper}
             );
 
-        List<Database.LeadConvertResult> leadConvertResults = Database.convertLead(testLeadConverts);
-        INT_LeadHandler.processConvertedLeads(leadConvertResults, interactionWrappersByLeadId);
+        INT_LeadHandler.processConvertedLeads(Database.convertLead(testLeadConverts), interactionWrappersByLeadId);
         Test.stopTest();
 
         // Assert
         System.assertNotEquals(null, interactionWrappersByLeadId.get(testLead.Id).contact.Id,
             'The test method should have populated the Contact__c lookup with the converted Contact Id.');
+    }
+
+    @IsTest
+    private static void testProcessConvertedLeadsError() {
+        // Arrange
+        Contact existingContact = INT_TestDataFactory.createTestContact();
+        insert existingContact;
+
+        Lead testLead = INT_TestDataFactory.createTestLead();
+        Interaction__c testInteraction = INT_TestDataFactory.createTestInteraction();
+        INT_InteractionProcessor.InteractionWrapper testInteractionWrapper =
+            new INT_InteractionProcessor.InteractionWrapper(testInteraction, testLead, new Contact());
+        insert testLead;
+
+        Map<Id, INT_InteractionProcessor.InteractionWrapper> interactionWrappersByLeadId =
+            new Map<Id, INT_InteractionProcessor.InteractionWrapper>{
+                testLead.Id => testInteractionWrapper
+            };
+
+        // Act
+        Test.startTest();
+        List<Database.LeadConvert> testLeadConverts =
+            INT_LeadHandler.createLeadConverts(
+                new List<INT_InteractionProcessor.InteractionWrapper>{testInteractionWrapper}
+            );
+
+        INT_LeadHandler.processConvertedLeads(Database.convertLead(testLeadConverts, false), interactionWrappersByLeadId);
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(null, interactionWrappersByLeadId.get(testLead.Id).contact.Id,
+            'The test method should have failed to populate the Contact Id on the Interaction as a Lead conversion ' +
+            'error should have been found.');
+        System.assertEquals(INT_Utilities.AUDIT_REQUIRED_STATUS, testInteraction.Interaction_Status__c,
+            'Interaction should have been flipped to Audit Required status.');
+        System.assert(testInteraction.Audit_Reason__c.contains('Error during Lead conversion'),
+            'A Lead conversion error should have been written to the Interaction audit status.');
     }
 
     @IsTest

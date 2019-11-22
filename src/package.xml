@@ -9,6 +9,7 @@
         <members>INT_ContactHandler_TEST</members>
         <members>INT_DuplicateHelper</members>
         <members>INT_DuplicateHelper_TEST</members>
+        <members>INT_InteractionMapping_Test</members>
         <members>INT_InteractionMappingService</members>
         <members>INT_InteractionMappingService_TEST</members>
         <members>INT_InteractionProcessor</members>

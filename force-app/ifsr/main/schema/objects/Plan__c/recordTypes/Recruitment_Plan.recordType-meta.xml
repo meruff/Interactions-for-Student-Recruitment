@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recruitment_Plan</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Recruitment_Interest</compactLayoutAssignment>
+    <description>Marketable programs of interest</description>
+    <label>Recruitment Plan</label>
+</RecordType>

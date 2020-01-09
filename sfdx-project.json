@@ -1,0 +1,24 @@
+{
+    "packageDirectories": [
+        {
+            "path": "force-app/ifsr",
+            "default": true,
+            "dependencies": [
+                {
+                    "package": "EDA"
+                }
+            ],
+            "package": "ifsr",
+            "versionNumber": "18.312.0"
+        },
+        {
+            "path": "unpackaged"
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "46.0",
+    "packageAliases": {
+        "EDA": "04t1R00000126qvQAA"
+    }
+}

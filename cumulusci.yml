@@ -1,0 +1,21 @@
+minimum_cumulusci_version: '3.3.0'
+project:
+    name: interactions
+    package:
+        name:  ifsr
+        api_version: '47.0'
+    dependencies:
+        - github: 'https://github.com/SalesforceFoundation/EDA'
+    source_format: sfdx
+
+tasks:
+    robot:
+        options:
+            suites: robot/interactions/tests
+            options:
+                outputdir: robot/interactions/results
+
+    robot_testdoc:
+        options:
+            path: robot/interactions/tests
+            output: robot/interactions/doc/interactions_tests.html

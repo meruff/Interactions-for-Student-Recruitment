@@ -11,8 +11,6 @@ private class INT_InteractionProcessor_TEST {
 
     private static Map<String, Schema.RecordTypeInfo> accountRecordTypeInfosByStrings =
         Account.SObjectType.getDescribe().getRecordTypeInfosByDeveloperName();
-    private static Map<String, Schema.RecordTypeInfo> planRecordTypeInfosByStrings =
-        Plan__c.SObjectType.getDescribe().getRecordTypeInfosByDeveloperName();
     private static List<Id> schoolAccountIds = new List<Id>{
         accountRecordTypeInfosByStrings.get(UNIV_DEPARTMENT).getRecordTypeId(),
         accountRecordTypeInfosByStrings.get(EDU_INST).getRecordTypeId()

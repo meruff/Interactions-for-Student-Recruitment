@@ -11,8 +11,6 @@ private class INT_OpportunityHandler_TEST {
 
     private static Map<String, Schema.RecordTypeInfo> accountRecordTypeInfosByStrings =
         Account.SObjectType.getDescribe().getRecordTypeInfosByDeveloperName();
-    private static Map<String, Schema.RecordTypeInfo> planRecordTypeInfosByStrings =
-        Plan__c.SObjectType.getDescribe().getRecordTypeInfosByDeveloperName();
 
     @TestSetup
     static void setUpTest() {

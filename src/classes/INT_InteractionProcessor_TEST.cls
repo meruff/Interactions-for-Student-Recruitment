@@ -6,7 +6,6 @@
 */
 @IsTest
 private class INT_InteractionProcessor_TEST {
-    private static final String ACAD_PLAN = 'Academic_Plan';
     private static final String EDU_INST = 'Educational_Institution';
     private static final String UNIV_DEPARTMENT = 'University_Department';
 
@@ -34,8 +33,7 @@ private class INT_InteractionProcessor_TEST {
             Type__c = 'Academic',
             Department__c = testAccounts[0].Id,
             Career__c = 'Undergraduate',
-            Active__c = true,
-            RecordTypeId = planRecordTypeInfosByStrings.get(ACAD_PLAN).getRecordTypeId()
+            Active__c = true
         );
         insert acadPlan;
 

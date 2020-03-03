@@ -5,10 +5,6 @@
 * Caches Interaction_Mapping__c records for reference during Interactions processing
 */
 public class INT_InteractionMappingService {
-    /**
-     * TODO Convert Interaction_Mapping__c to a Custom mdt instead of custom Object?
-     */
-
     private static Set<String> objectNames = new Set<String>();
     private static Map<String, Set<String>> skipMappingMap = new Map<String, Set<String>>();
 

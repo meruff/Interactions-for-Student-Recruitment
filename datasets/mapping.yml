@@ -1,45 +1,127 @@
-Insert Accounts:
+Insert Account:
   sf_object: Account
-  table: accounts
+  table: Account
   fields:
+    Id: sf_id
     Name: Name
-    Description: Description
-    BillingStreet: Street
-    BillingCity: City
-    BillingState: State
-    BillingPostalCode: PostalCode
-    BillingCountry: Country
-    ShippingStreet: Street
-    ShippingCity: City
-    ShippingState: State
-    ShippingPostalCode: PostalCode
-    ShippingCountry: Country
-    Phone: Phone
-    Fax: Fax
-    Website: Website
-    NumberOfEmployees: NumberOfEmployees
-    AccountNumber: AccountNumber
-    Site: Site
-    Type: Type
-Insert Contacts:
-  sf_object: Contact
-  table: contacts
-  fields:
-    Salutation: salutation
-    FirstName: firstname
-    LastName: lastname
-    Email: email
-    Phone: phone
-    MobilePhone: mobile
-    OtherPhone: OtherPhone
-    HomePhone: HomePhone
-    Title: title
-    Birthdate: birthdate
-    MailingStreet: mailingstreet
-    MailingCity: mailingcity
-    MailingState: mailingstate
-    MailingPostalCode: mailingpostalcode
-    MailingCountry: mailingcountry
+    RecordTypeId: RecordTypeId
   lookups:
-    AccountId:
-      table: accounts
+    ParentId:
+      table: Account
+      after: Insert Account
+    hed__Current_Address__c:
+      table: hed__Address__c
+      after: Insert hed__Address__c
+    hed__Primary_Contact__c:
+      table: Contact
+      after: Insert Contact
+Insert hed__Term__c:
+  sf_object: hed__Term__c
+  table: hed__Term__c
+  fields:
+    Id: sf_id
+    Name: Name
+    hed__End_Date__c: hed__End_Date__c
+    hed__Grading_Period_Sequence__c: hed__Grading_Period_Sequence__c
+    hed__Instructional_Days__c: hed__Instructional_Days__c
+    hed__Start_Date__c: hed__Start_Date__c
+    hed__Type__c: hed__Type__c
+  lookups:
+    hed__Account__c:
+      table: Account
+    hed__Parent_Term__c:
+      table: hed__Term__c
+      after: Insert hed__Term__c
+Insert Plan__c:
+  sf_object: Plan__c
+  table: Plan__c
+  fields:
+    Id: sf_id
+    Name: Name
+    Active__c: Active__c
+    CIP_Code__c: CIP_Code__c
+    Career__c: Career__c
+    Degree__c: Degree__c
+    Plan_Code__c: Plan_Code__c
+    Plan_Type__c: Plan_Type__c
+    RecordTypeId: RecordTypeId
+    Type__c: Type__c
+  lookups:
+    Department__c:
+      table: Account
+    Recruitment_Interest__c:
+      table: Plan__c
+      after: Insert Plan__c
+Insert Interaction_Mapping__c:
+  sf_object: Interaction_Mapping__c
+  table: Interaction_Mapping__c
+  fields:
+    Id: sf_id
+    Active__c: Active__c
+    Insert_Null__c: Insert_Null__c
+    Skip_Mapping__c: Skip_Mapping__c
+    Source_Field_API_Name__c: Source_Field_API_Name__c
+    Source_Object_API_Name__c: Source_Object_API_Name__c
+    Target_Field_API_Name__c: Target_Field_API_Name__c
+    Target_Object_API_Name__c: Target_Object_API_Name__c
+Insert Interaction__c:
+  sf_object: Interaction__c
+  table: Interaction__c
+  fields:
+    Id: sf_id
+    Additional_Campaign_Member_Status__c: Additional_Campaign_Member_Status__c
+    Additional_Campaign_Reference_ID__c: Additional_Campaign_Reference_ID__c
+    Admit_Type__c: Admit_Type__c
+    Affiliation_Role__c: Affiliation_Role__c
+    Affiliation_Status__c: Affiliation_Status__c
+    Application_Number__c: Application_Number__c
+    Audit_Reason__c: Audit_Reason__c
+    Birthdate__c: Birthdate__c
+    Campaign_Member_Status__c: Campaign_Member_Status__c
+    Campaign_Reference_ID__c: Campaign_Reference_ID__c
+    Constituent_ID__c: Constituent_ID__c
+    Contact_Title__c: Contact_Title__c
+    Email__c: Email__c
+    Ethnicity__c: Ethnicity__c
+    First_Name__c: First_Name__c
+    Gender__c: Gender__c
+    Home_Phone__c: Home_Phone__c
+    Interaction_Source__c: Interaction_Source__c
+    Interaction_Status__c: Interaction_Status__c
+    Interaction_Upsert_Key__c: Interaction_Upsert_Key__c
+    Last_Name__c: Last_Name__c
+    Lead_Only__c: Lead_Only__c
+    Lead_Source__c: Lead_Source__c
+    Mailing_City__c: Mailing_City__c
+    Mailing_Country__c: Mailing_Country__c
+    Mailing_Postal_Code__c: Mailing_Postal_Code__c
+    Mailing_State__c: Mailing_State__c
+    Mailing_Street__c: Mailing_Street__c
+    Middle_Name__c: Middle_Name__c
+    Mobile_Phone__c: Mobile_Phone__c
+    Opportunity_Stage__c: Opportunity_Stage__c
+    Primary_Affiliation__c: Primary_Affiliation__c
+    Race__c: Race__c
+    Salutation__c: Salutation__c
+    University_Email__c: University_Email__c
+  lookups:
+    Academic_Interest__c:
+      table: Plan__c
+    Additional_Campaign__c:
+      table: Campaign
+    Affiliated_Account__c:
+      table: Account
+    Campaign__c:
+      table: Campaign
+    Contact__c:
+      table: Contact
+      after: Insert Contact
+    Lead__c:
+      table: Lead
+    Opportunity__c:
+      table: Opportunity
+      after: Insert Opportunity
+    Recruitment_Interest__c:
+      table: Plan__c
+    Term__c:
+      table: hed__Term__c

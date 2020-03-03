@@ -5,7 +5,7 @@ project:
         name:  ifsr
         api_version: '47.0'
     dependencies:
-        - github: 'https://github.com/SalesforceFoundation/EDA'
+        -   github: 'https://github.com/SalesforceFoundation/EDA'
     source_format: sfdx
 
 tasks:
@@ -19,3 +19,13 @@ tasks:
         options:
             path: robot/interactions/tests
             output: robot/interactions/doc/interactions_tests.html
+
+flows:
+    dev_org:
+        steps:
+            5:
+                task: update_admin_profile
+            6:
+                task: load_dataset
+                options:
+                    org: dev

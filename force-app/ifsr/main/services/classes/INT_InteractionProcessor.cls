@@ -5,12 +5,6 @@
 * Handles Interaction__c processing and logic.
 */
 public class INT_InteractionProcessor {
-    /**
-     * TODO
-     *  - INT_RelationshipHandler, add to standard Interactions? Configurable using the handlersToProcess List below.
-     *  - Convert handlersToProcess to a custom MDT? TDTM Lite™
-     */
-
     public static Boolean runAsync = true;
     public static Boolean runProcessing = true;
 
@@ -114,10 +108,18 @@ public class INT_InteractionProcessor {
 
         // Find existing Contacts in the database using DataCloud class, populate Id. Upsert using Id.
         INT_DuplicateHelper.findDuplicateRecords(contactsToUpsert);
-        INT_Utilities.logPossibleErrors(Database.upsert(contactsToUpsert, false));
+        INT_Utilities.logPossibleErrors(
+            Database.upsert(contactsToUpsert, false),
+            interactionsToUpdate,
+            'Error upserting Contact: '
+        );
 
         // Upsert any Leads
-        INT_Utilities.logPossibleErrors(Database.upsert(leadsToUpsert, false));
+        INT_Utilities.logPossibleErrors(
+            Database.upsert(leadsToUpsert, false),
+            interactionsToUpdate,
+            'Error upserting Lead: '
+        );
 
         // Populate Interactions with lookup info and add any Leads Ids to delete to List.
         for (INT_InteractionProcessor.InteractionWrapper wrapper : interactionWrappers) {

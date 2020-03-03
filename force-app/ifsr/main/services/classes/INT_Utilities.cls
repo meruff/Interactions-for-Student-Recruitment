@@ -5,10 +5,6 @@
 * A utility class used by Interactions.
 */
 public class INT_Utilities {
-    /**
-     * TODO enableLogging should probably be both a hierarchical setting and flag usable by a User and Apex.
-     */
-
     public static final String NEW_STATUS = 'New';
     public static final String IMPORTED_STATUS = 'Imported';
     public static final String AUDIT_REQUIRED_STATUS = 'Audit Required';

@@ -37,7 +37,6 @@ CREATE TABLE "Interaction_Mapping__c" (
     "Target_Object_API_Name__c" VARCHAR(255), 
     PRIMARY KEY (sf_id)
 );
-INSERT INTO "Interaction_Mapping__c" VALUES('a0T8A000002FBYnUAO','true','false','','Unique_Id__c','Interaction__c','Unique_Id__c','Contact');
 INSERT INTO "Interaction_Mapping__c" VALUES('a0T8A000002FBV0UAO','true','false','','Ethnicity__c','Interaction__c','Ethnicity__c','Lead');
 INSERT INTO "Interaction_Mapping__c" VALUES('a0T8A000002FBV1UAO','true','false','','Race__c','Interaction__c','Race__c','Lead');
 INSERT INTO "Interaction_Mapping__c" VALUES('a0T8A000002FBV2UAO','true','false','','Recruitment_Interest__c','Interaction__c','Recruitment_Interest__c','Lead');

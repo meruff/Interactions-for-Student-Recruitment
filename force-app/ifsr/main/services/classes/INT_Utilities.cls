@@ -31,7 +31,7 @@ public class INT_Utilities {
     /**
      * Logs a System.debug message if logging is enabled.
      *
-     * @param message, a String to log.
+     * @param obj, an Object to log.
      */
     public static void log(Object obj) {
         if (enableLogging) {
@@ -43,7 +43,7 @@ public class INT_Utilities {
      * Logs a System.debug message is logging is enabled with LoggingLevel.
      *
      * @param level, the System.LoggingLevel to use.
-     * @param message, a String to log.
+     * @param obj, an Object to log.
      */
     public static void log(System.LoggingLevel level, Object obj) {
         if (enableLogging) {
@@ -70,7 +70,7 @@ public class INT_Utilities {
     /**
      * Debugs UpsertResult errors if they happen.
      *
-     * @param saveResults, the Database.UpsertResult List to check.
+     * @param upsertResults, the Database.UpsertResult List to check.
      */
     public static void logPossibleErrors(Database.UpsertResult[] upsertResults) {
         for (Database.UpsertResult result : upsertResults) {
@@ -89,7 +89,7 @@ public class INT_Utilities {
      *
      * @see #writeAuditReasonToInteraction()
      *
-     * @param saveResults, the Database.UpsertResult List to check.
+     * @param upsertResults, the Database.UpsertResult List to check.
      * @param interactionsToWriteTo, a List of Interaction__c records to write upsert errors to.
      * @param messageString, a String message to write to the Audit_Reason__c field on the related Interaction__c record.
      */
@@ -108,6 +108,10 @@ public class INT_Utilities {
                         interactionsToWriteTo[index],
                         messageString + error.getStatusCode() + ' - ' + error.getMessage()
                     );
+
+                    if (error instanceof Database.DuplicateError) {
+                        writeDuplicateErrorToInteraction(interactionsToWriteTo[index], (Database.DuplicateError) error);
+                    }
                 }
             }
 
@@ -141,6 +145,34 @@ public class INT_Utilities {
     public static void writeAuditReasonToInteraction(Interaction__c interaction, String auditReason) {
         if (interaction.Interaction_Status__c != AUDIT_REQUIRED_STATUS) interaction.Interaction_Status__c = AUDIT_REQUIRED_STATUS;
         interaction.Audit_Reason__c = (!String.isBlank(interaction.Audit_Reason__c)) ? interaction.Audit_Reason__c + '\n' + auditReason : auditReason;
+    }
+
+    /**
+     * Writes a Database.DuplicateError Audit_Reason__c to the provided Interaction__c record.
+     *
+     * @see writeAuditReasonToInteraction()
+     *
+     * @param interaction, the Interaction__c record to write to.
+     * @param error, the Database.DuplicateError record to use.
+     */
+    public static void writeDuplicateErrorToInteraction(Interaction__c interaction, Database.DuplicateError duplicateError) {
+        for (Datacloud.MatchResult matchResult : duplicateError.getDuplicateResult().getMatchResults()) {
+            for (Datacloud.MatchRecord matchRecord : matchResult.getMatchRecords()) {
+                writeAuditReasonToInteraction(
+                    interaction,
+                    'Matched record: ' + matchRecord.getRecord()
+                );
+
+                for (Datacloud.FieldDiff fieldDiff : matchRecord.getFieldDiffs()) {
+                    if (fieldDiff.getDifference() == 'Same') {
+                        writeAuditReasonToInteraction(
+                            interaction,
+                            'Matched field: ' + fieldDiff.getName()
+                        );
+                    }
+                }
+            }
+        }
     }
 
     /**

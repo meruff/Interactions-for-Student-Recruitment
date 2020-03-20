@@ -113,6 +113,31 @@ private class INT_Utilities_TEST {
     }
 
     @IsTest
+    private static void testLogPossibleErrorsDuplicateResult() {
+        // Arrange
+        insert INT_TestDataFactory.createTestContact();
+        Contact testContact = INT_TestDataFactory.createTestContact();
+        Interaction__c testInteraction = INT_TestDataFactory.createTestInteraction();
+
+        // Act
+        Test.startTest();
+        INT_Utilities.logPossibleErrors(
+            new List<Database.UpsertResult>{Database.upsert(testContact, false)},
+            new List<Interaction__c>{testInteraction},
+            'Upsert Error - '
+        );
+        Test.stopTest();
+
+        // Assert
+        System.assertEquals(INT_Utilities.AUDIT_REQUIRED_STATUS, testInteraction.Interaction_Status__c,
+            'Interaction Status should have been set to Audit Required.');
+        System.assertNotEquals(null, testInteraction.Audit_Reason__c,
+            'Audit Reason should have been written to.');
+        System.assert(testInteraction.Audit_Reason__c.contains('Upsert Error - '),
+            'The custom error message should have been written to the Interaction.');
+    }
+
+    @IsTest
     private static void testLogPossibleErrorsDeleteResult() {
         // Act
         Test.startTest();

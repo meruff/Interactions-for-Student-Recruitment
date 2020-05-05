@@ -34,19 +34,8 @@ public class INT_ContactHandler {
      * @param matchRecords, a List of Datacloud.MatchRecord records to use.
      */
     public static void findMatchedContactId(SObject contactToPopulate, List<Datacloud.MatchRecord> matchRecords) {
-        Contact matchedContact;
-
-        for (Datacloud.MatchRecord match : matchRecords) {
-            // We want to use the oldest matched record, it will be the source Contact.
-            Contact compareContact = (Contact) match.getRecord();
-            if (matchedContact == null || (compareContact.CreatedDate < matchedContact.CreatedDate)) {
-                matchedContact = new Contact();
-                matchedContact = compareContact;
-            }
-        }
-
-        if (!String.isBlank(matchedContact.Id)) {
-            contactToPopulate.Id = matchedContact.Id;
+        if (!matchRecords.isEmpty()) {
+            contactToPopulate.Id = (Id) matchRecords[0].record.get('Id');
             INT_Utilities.log('Using duplicate Contact found: ' + contactToPopulate.get('FirstName') + '' +
                 ' ' + contactToPopulate.get('LastName') + ' with Id ' + contactToPopulate.Id);
         }

@@ -58,6 +58,8 @@ public class INT_OpportunityHandler implements INT_SObjectHandler {
                 if (interaction.Opportunity__r != null && !String.isBlank(interaction.Opportunity__r.Id)) {
                     interaction.Opportunity__c = interaction.Opportunity__r.Id;
                 }
+
+                interaction.Opportunity__r = null;
             }
 
             INT_Utilities.updateInteractionsIfAsync(interactionsWithOpportunities);

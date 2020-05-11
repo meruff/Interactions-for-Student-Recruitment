@@ -16,8 +16,6 @@ public class INT_Utilities {
      * asynchronous context. This method logs possible update errors when logging is enabled and ensures the
      * INT_InteractionProcessor class is turned off during update.
      *
-     * @see #logPossibleErrors()
-     *
      * @param interactionsToUpdate, a List of Interaction__c records to update if running in asynchronous mode.
      */
     public static void updateInteractionsIfAsync(List<Interaction__c> interactionsToUpdate) {
@@ -87,11 +85,9 @@ public class INT_Utilities {
      * Debugs UpsertResult errors if they happen and writes to Interaction Audit Reason. The List of UpsertResult
      * records must match the List of Interaction record's index numbers.
      *
-     * @see #writeAuditReasonToInteraction()
-     *
-     * @param upsertResults, the Database.UpsertResult List to check.
-     * @param interactionsToWriteTo, a List of Interaction__c records to write upsert errors to.
-     * @param messageString, a String message to write to the Audit_Reason__c field on the related Interaction__c record.
+     * @param upsertResults , the Database.UpsertResult List to check.
+     * @param interactionsToWriteTo , a List of Interaction__c records to write upsert errors to.
+     * @param messageString , a String message to write to the Audit_Reason__c field on the related Interaction__c record.
      */
     public static void logPossibleErrors(Database.UpsertResult[] upsertResults, List<Interaction__c> interactionsToWriteTo, String messageString) {
         Integer index = 0;
@@ -104,6 +100,11 @@ public class INT_Utilities {
                 );
 
                 for (Database.Error error : result.getErrors()) {
+                    log(
+                        System.LoggingLevel.ERROR,
+                        error.getStatusCode() + ' - ' + error.getMessage()
+                    );
+
                     writeAuditReasonToInteraction(
                         interactionsToWriteTo[index],
                         messageString + error.getStatusCode() + ' - ' + error.getMessage()
@@ -150,10 +151,8 @@ public class INT_Utilities {
     /**
      * Writes a Database.DuplicateError Audit_Reason__c to the provided Interaction__c record.
      *
-     * @see writeAuditReasonToInteraction()
-     *
      * @param interaction, the Interaction__c record to write to.
-     * @param error, the Database.DuplicateError record to use.
+     * @param duplicateError, the Database.DuplicateError record to use.
      */
     public static void writeDuplicateErrorToInteraction(Interaction__c interaction, Database.DuplicateError duplicateError) {
         for (Datacloud.MatchResult matchResult : duplicateError.getDuplicateResult().getMatchResults()) {
@@ -179,8 +178,6 @@ public class INT_Utilities {
      * Runs the processInteractionsAsync() method in INT_InteractionsProcessor for the provided list of
      * INT_SObjectHandler records and Interaction__c record Ids.
      *
-     * @see INT_InteractionProcessor.processInteractionsAsync();
-     *
      * @param handlersToProcess, a List of INT_SObjectHandler classes to run.
      * @param interactionIdsToProcess, a Set of Interaction__c record Ids to process asynchronously.
      */
@@ -195,8 +192,6 @@ public class INT_Utilities {
     /**
      * Runs the processInteractions() method in INT_InteractionsProcessor for the provided list of INT_SObjectHandler
      * records and Interaction__c record Ids.
-     *
-     * @see INT_InteractionProcessor.processInteractions();
      *
      * @param handlersToProcess, a List of INT_SObjectHandler classes to run.
      * @param interactionsToProcess, a List of Interaction__c records to process synchronously.

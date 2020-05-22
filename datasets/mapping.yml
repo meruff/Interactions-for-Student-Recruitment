@@ -15,6 +15,14 @@ Insert Account:
     hed__Primary_Contact__c:
       table: Contact
       after: Insert Contact
+Insert Campaign:
+    sf_object: Campaign
+    table: Campaign
+    fields:
+      Id: sf_id
+      Name: Name
+      Description: Description
+      IsActive: IsActive
 Insert hed__Term__c:
   sf_object: hed__Term__c
   table: hed__Term__c
@@ -113,11 +121,13 @@ Insert Interaction__c:
       table: Account
     Campaign__c:
       table: Campaign
+      after: Insert Campaign
     Contact__c:
       table: Contact
       after: Insert Contact
     Lead__c:
       table: Lead
+      after: Insert Lead
     Opportunity__c:
       table: Opportunity
       after: Insert Opportunity

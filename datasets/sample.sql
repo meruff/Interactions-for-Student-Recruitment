@@ -26,6 +26,14 @@ INSERT INTO "Account_rt_mapping" VALUES('0128A000000d352QAA','Educational_Instit
 INSERT INTO "Account_rt_mapping" VALUES('0128A000000d353QAA','HH_Account');
 INSERT INTO "Account_rt_mapping" VALUES('0128A000000d354QAA','Sports_Organization');
 INSERT INTO "Account_rt_mapping" VALUES('0128A000000d355QAA','University_Department');
+CREATE TABLE "Campaign" (
+    sf_id VARCHAR(255) NOT NULL,
+    "Name" VARCHAR(255),
+    "Description" VARCHAR(255),
+    "IsActive" VARCHAR(255),
+    PRIMARY KEY (sf_id)
+);
+INSERT INTO "Campaign" VALUES('70155000000ya5NAAQ','Campus Visit','Visit SCI Campus','true');
 CREATE TABLE "Interaction_Mapping__c" (
     sf_id VARCHAR(255) NOT NULL, 
     "Active__c" VARCHAR(255), 

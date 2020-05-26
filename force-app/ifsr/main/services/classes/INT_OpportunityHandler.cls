@@ -71,7 +71,8 @@ public class INT_OpportunityHandler implements INT_SObjectHandler {
             CloseDate = System.today(),
             StageName = interaction.Opportunity_Stage__c,
             Opportunity_Key__c = interaction.Contact__c + interaction.Opportunity_Key__c,
-            AccountId = interaction.Contact_Account_ID__c
+            AccountId = interaction.Contact_Account_ID__c,
+            Contact__c = interaction.Contact__c
         );
 
         INT_InteractionMappingService.applyDataToSObject(interaction, newOpportunity);

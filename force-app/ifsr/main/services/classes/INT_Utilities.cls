@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/10/19
 *
 * A utility class used by Interactions.
@@ -170,36 +170,6 @@ public class INT_Utilities {
                         );
                     }
                 }
-            }
-        }
-    }
-
-    /**
-     * Runs the processInteractionsAsync() method in INT_InteractionsProcessor for the provided list of
-     * INT_SObjectHandler records and Interaction__c record Ids.
-     *
-     * @param handlersToProcess, a List of INT_SObjectHandler classes to run.
-     * @param interactionIdsToProcess, a Set of Interaction__c record Ids to process asynchronously.
-     */
-    public static void runSObjectHandlersAsync(List<INT_SObjectHandler> handlersToProcess, Set<Id> interactionIdsToProcess) {
-        if (!handlersToProcess.isEmpty()) {
-            for (INT_SObjectHandler handler : handlersToProcess) {
-                handler.processInteractionsAsync(interactionIdsToProcess);
-            }
-        }
-    }
-
-    /**
-     * Runs the processInteractions() method in INT_InteractionsProcessor for the provided list of INT_SObjectHandler
-     * records and Interaction__c record Ids.
-     *
-     * @param handlersToProcess, a List of INT_SObjectHandler classes to run.
-     * @param interactionsToProcess, a List of Interaction__c records to process synchronously.
-     */
-    public static void runSObjectHandlers(List<INT_SObjectHandler> handlersToProcess, List<Interaction__c> interactionsToProcess) {
-        if (!handlersToProcess.isEmpty()) {
-            for (INT_SObjectHandler handler : handlersToProcess) {
-                handler.processInteractions(interactionsToProcess);
             }
         }
     }

@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/10/19
 *
 * Unit Tests for INT_InteractionProcessor.cls
@@ -288,13 +288,29 @@ private class INT_InteractionProcessor_TEST {
      * Tests bulk processing Interactions with an existing Lead record.
      */
     @IsTest
-    static void testBulkInteractionInsertExistingLead() {
+    static void testBulkInteractionInsertExistingLeadBulkOpportunity() {
         // Arrange
         List<Lead> testLeads = INT_TestDataFactory.createBulkTestLeads(10);
         testLeads.add(INT_TestDataFactory.createTestLead());
         insert testLeads;
 
+        Id acadInterestId = [
+            SELECT Id
+            FROM Plan__c
+            LIMIT 1
+        ].Id;
+
+        Id termId = [
+            SELECT Id
+            FROM hed__Term__c
+            LIMIT 1
+        ].Id;
+
         List<Interaction__c> interactionsToInsert = INT_TestDataFactory.createBulkTestInteractions(200);
+        for (Interaction__c interaction : interactionsToInsert) {
+            interaction.Academic_Interest__c = acadInterestId;
+            interaction.Term__c = termId;
+        }
 
         interactionsToInsert.addAll(
             new List<Interaction__c>{
@@ -314,16 +330,8 @@ private class INT_InteractionProcessor_TEST {
                     Race__c = 'White',
                     Birthdate__c = Date.newInstance(1998, 1, 1),
                     Admit_Type__c = 'New Freshman',
-                    Academic_Interest__c = [
-                        SELECT Id
-                        FROM Plan__c
-                        LIMIT 1
-                    ].Id,
-                    Term__c = [
-                        SELECT Id
-                        FROM hed__Term__c
-                        LIMIT 1
-                    ].Id,
+                    Academic_Interest__c = acadInterestId,
+                    Term__c = termId,
                     Lead_Source__c = 'Office Visit',
                     Affiliated_Account__c = [
                         SELECT Id
@@ -343,13 +351,14 @@ private class INT_InteractionProcessor_TEST {
 
         // Assert
         System.assertEquals(0, [SELECT Id FROM Lead].size(),
-            'Lead count expected to be at 0. Once converted, the Leads should be deleted');
-        System.assertEquals(202, [SELECT Id FROM Account WHERE RecordTypeId NOT IN :schoolAccountIds].size(),
-            '202 Accounts Expected - 1 for each of the 202 Interactions');
+            'Lead count expected to be at 0. Once converted, the Leads should be deleted.');
 
         Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT FirstName FROM Contact]);
         System.assertEquals(202, contactMap.size(),
-            '202 Contacts Expected - 1 for each of the 202 Interactions');
+            '202 Contacts Expected - 1 for each of the 202 Interactions.');
+
+        System.assertEquals(201, [SELECT Id FROM Opportunity].size(),
+            '201 Opportunities Expected - 1 for each of the 201 Interactions with Academic Interest information.');
 
         for (Interaction__c interaction : [
             SELECT First_Name__c,

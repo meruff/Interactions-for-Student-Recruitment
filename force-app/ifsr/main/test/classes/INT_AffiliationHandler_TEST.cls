@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/20/19
 *
 * Apex unit tests for INT_AffiliationHandler.cls

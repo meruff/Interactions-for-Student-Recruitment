@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/11/19
 *
 * Handles processing of hed__Affiliation__c records for Interactions.
@@ -49,15 +49,6 @@ public class INT_AffiliationHandler implements INT_SObjectHandler {
                 interactionsWithAffiliations,
                 'Error creating Affiliation: '
             );
-
-            // Update Interactions with Audit Status only if there was an error creating a related Affiliation record.
-            for (Integer i = 0; i < interactionsWithAffiliations.size(); i++) {
-                if (!String.isBlank(interactionsWithAffiliations[i].Audit_Reason__c)
-                    && !interactionsWithAffiliations[i].Audit_Reason__c.contains('Error creating Affiliation')
-                ) {
-                    interactionsWithAffiliations.remove(i);
-                }
-            }
 
             if (!interactionsWithAffiliations.isEmpty()) {
                 INT_Utilities.updateInteractionsIfAsync(interactionsWithAffiliations);

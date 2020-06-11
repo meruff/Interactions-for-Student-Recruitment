@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/11/19
 *
 * Handles processing of Opportunity records for Interactions.

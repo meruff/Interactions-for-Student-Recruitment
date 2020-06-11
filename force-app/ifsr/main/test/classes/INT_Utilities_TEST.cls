@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/20/19
 *
 * Unit Tests for INT_Utilities.cls
@@ -151,41 +151,6 @@ private class INT_Utilities_TEST {
 
         // Assert
         System.assert(INT_Utilities.enableLogging);
-    }
-
-    @IsTest
-    private static void testRunSObjectHandlersAsync() {
-        // Arrange
-        List<INT_SObjectHandler> sObjectHandlers = new List<INT_SObjectHandler>{
-            (INT_SObjectHandler) new INT_OpportunityHandler()
-        };
-
-        List<Interaction__c> testInteractions = INT_TestDataFactory.createBulkTestInteractions(2);
-        INT_InteractionProcessor.runProcessing = false;
-        insert testInteractions;
-        INT_InteractionProcessor.runProcessing = true;
-
-        // Act
-        Test.startTest();
-        INT_Utilities.runSObjectHandlersAsync(sObjectHandlers, new Map<Id, Interaction__c>(testInteractions).keySet());
-        Test.stopTest();
-
-        // Assert
-        System.assertEquals(0, [SELECT Id FROM Opportunity].size(), 'Opportunities should not have been processed.');
-    }
-
-    @IsTest
-    private static void testRunSObjectHandlers() {
-        // Act
-        Test.startTest();
-        INT_Utilities.runSObjectHandlers(
-            new List<INT_SObjectHandler>{(INT_SObjectHandler) new INT_OpportunityHandler()},
-            INT_TestDataFactory.createBulkTestInteractions(2)
-        );
-        Test.stopTest();
-
-        // Assert
-        System.assertEquals(0, [SELECT Id FROM Opportunity].size(), 'Opportunities should not have been processed.');
     }
 
     @IsTest

@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/12/19
 *
 * Uses the HEDA Table Driven Trigger Management to create OpportunityContactRole records.

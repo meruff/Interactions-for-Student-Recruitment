@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/8/19
 *
 * Handles processing of Lead records for Interactions.

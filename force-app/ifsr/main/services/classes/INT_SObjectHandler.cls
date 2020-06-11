@@ -1,5 +1,5 @@
 /**
-* @author Sierra-Cedar
+* @author Accenture
 * @date 11/11/19
 *
 * An interface for Interactions to use when creating SObject handlers

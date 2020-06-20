@@ -119,9 +119,6 @@ Insert Interaction__c:
       table: Campaign
     Affiliated_Account__c:
       table: Account
-    Campaign__c:
-      table: Campaign
-      after: Insert Campaign
     Contact__c:
       table: Contact
       after: Insert Contact

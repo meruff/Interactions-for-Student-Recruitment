@@ -113,15 +113,6 @@ public class INT_CampaignMemberHandler implements INT_SObjectHandler {
                 'Error creating CampaignMember: '
             );
 
-            // Update Interactions with Audit Status only if there was an error creating a related CampaignMember record.
-            for (Integer i = 0; i < interactionsWithCampaignMembers.size(); i++) {
-                if (!String.isBlank(interactionsWithCampaignMembers[i].Audit_Reason__c)
-                    && !String.valueOf(interactionsWithCampaignMembers[i].Audit_Reason__c).contains('Error creating CampaignMember')
-                ) {
-                    interactionsWithCampaignMembers.remove(i);
-                }
-            }
-
             if (!interactionsWithCampaignMembers.isEmpty()) {
                 INT_Utilities.updateInteractionsIfAsync(interactionsWithCampaignMembers);
             }

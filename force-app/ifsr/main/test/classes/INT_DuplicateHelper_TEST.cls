@@ -1,5 +1,5 @@
 /**
-* @author Accenture
+* @author meruff
 * @date 11/20/19
 *
 * Unit Tests for INT_DuplicateHelper.cls

@@ -1,5 +1,5 @@
 /**
-* @author Accenture
+* @author meruff
 * @date 11/5/19
 *
 * Handles duplicate logic for Interactions.

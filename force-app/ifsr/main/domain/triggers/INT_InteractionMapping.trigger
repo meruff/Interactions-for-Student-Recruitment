@@ -1,5 +1,5 @@
 /**
-* @author Accenture
+* @author meruff
 * @date 11/8/19
 *
 * Interaction_Mapping__c Trigger. Validates new mapping records to validate that the fields they reference exist

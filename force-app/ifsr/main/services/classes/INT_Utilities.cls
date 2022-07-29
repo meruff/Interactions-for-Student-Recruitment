@@ -1,5 +1,5 @@
 /**
-* @author Accenture
+* @author meruff
 * @date 11/10/19
 *
 * A utility class used by Interactions.

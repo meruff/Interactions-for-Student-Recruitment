@@ -1,5 +1,5 @@
 /**
-* @author Accenture
+* @author meruff
 * @date 11/12/19
 *
 * Handles processing of CampaignMember records for Interactions.

@@ -1,5 +1,5 @@
 /**
-* @author Accenture
+* @author meruff
 * @date 11/10/19
 *
 * Unit Tests for INT_InteractionProcessor.cls

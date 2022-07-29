@@ -1,5 +1,5 @@
 /**
-* @author Accenture
+* @author meruff
 * @date 11/8/19
 *
 * Unit tests for INT_OpportunityContactRoleHandler.cls
